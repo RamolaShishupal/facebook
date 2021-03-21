@@ -9,7 +9,7 @@ def home(request):
     context={'order':orders,'customers':customers}
 
 
-    return render(request,'accounts/dashboard.html')
+    return render(request,'accounts/dashboard.html',context)
 def product(request):
     products=Product.objects.all()
     return render(request, 'accounts/product.html',{'products':products})
