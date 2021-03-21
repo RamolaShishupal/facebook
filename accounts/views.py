@@ -6,7 +6,7 @@ def home(request):
     orders=Order.objects.all()
     customers=Customer.objects.all()
 
-    context={'order':orders,'customers':customers}
+    context={'orders':orders,'customers':customers}
 
 
     return render(request,'accounts/dashboard.html',context)
