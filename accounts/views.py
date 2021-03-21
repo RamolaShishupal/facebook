@@ -20,5 +20,6 @@ def home(request):
 def product(request):
     products=Product.objects.all()
     return render(request, 'accounts/product.html',{'products':products})
-def customer(request):
+def customer(request,pk_test):
+    customer=Customer.objects.get(id=pk_test)
     return render(request, 'accounts/customer.html')
