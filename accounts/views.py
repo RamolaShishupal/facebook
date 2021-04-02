@@ -27,7 +27,8 @@ def customer(request,pk_test):
     order_count=orders.count()
     context={'customer':customer,'orders':orders,'order_count':order_count}
     return render(request, 'accounts/customer.html',context)
-def createOrder(request):
+def createOrder(request,pk):
+    customer=Customer.objects.get(id=pk)
     form=OrderForm()
     if request.method=='POST':
         print('Printing POST:',request.POST)
