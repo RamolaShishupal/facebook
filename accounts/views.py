@@ -30,8 +30,11 @@ def customer(request,pk_test):
     context={'customer':customer,'orders':orders,'order_count':order_count}
     return render(request, 'accounts/customer.html',context)
 def createOrder(request,pk):
+    OrderFormSet=inlineformset_factory(Customer,Order,fields=('product','status'))
+
     customer=Customer.objects.get(id=pk)
-    form=OrderForm(initial={'customer':customer})
+    formset=OrderFormSet(instance=customer)
+    # form=OrderForm(initial={'customer':customer})
     if request.method=='POST':
         print('Printing POST:',request.POST)
 
@@ -41,7 +44,7 @@ def createOrder(request,pk):
             form.save()
             return  redirect('/')
 
-    context={'form':form}
+    context={'formset':formset}
     return render(request,'accounts/order_form.html',context)
 def updateOrder(request,pk):
     order=Order.objects.get(id=pk)
