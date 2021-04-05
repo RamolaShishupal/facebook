@@ -25,11 +25,13 @@ def product(request):
     products=Product.objects.all()
     return render(request, 'accounts/product.html',{'products':products})
 def customer(request,pk_test):
-    myfilter=OrderFilter()
 
     customer=Customer.objects.get(id=pk_test)
     orders=customer.order_set.all()
     order_count=orders.count()
+    myfilter=OrderFilter(request.GET,queryset=orders)
+    orders=myfilter.qs
+
     context={'customer':customer,'orders':orders,'order_count':order_count,'myfilter':myfilter}
     return render(request, 'accounts/customer.html',context)
 def createOrder(request,pk):
