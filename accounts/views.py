@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from .models import *
+from django.contrib.auth.forms import UserCreationForm
 from .forms import OrderForm
 from django.forms import inlineformset_factory
 from .filters import *
@@ -80,6 +81,8 @@ def deleteOrder(request,pk):
 
     return render(request,'accounts/delete.html',context)
 def login(request):
-    return render(request,'accounts/login.html')
+    context={}
+    return render(request,'accounts/login.html',context)
 def register(request):
-    return render(request,'accounts/register.html')
+    context={}
+    return render(request,'accounts/register.html',context)
