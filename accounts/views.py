@@ -5,6 +5,8 @@ from .forms import OrderForm,CreateUserForm
 from django.forms import inlineformset_factory
 from .filters import *
 
+from django.contrib import messages
+
 # Create your views here.
 from django.http import  HttpResponse
 def home(request):
@@ -91,6 +93,7 @@ def register(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
+            return redirect('login')
     context = {'form': form}
 
 
