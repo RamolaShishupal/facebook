@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import OrderForm,CreateUserForm
 from django.forms import inlineformset_factory
 from .filters import *
+from django.contrib.auth import authenticate,login,logout
 
 from django.contrib import messages
 
@@ -82,10 +83,16 @@ def deleteOrder(request,pk):
     context={'item':order}
 
     return render(request,'accounts/delete.html',context)
-def login(request):
-    form=UserCreationForm()
-    context={'form':form}
-    return render(request,'accounts/login.html',context)
+def loginpage(request):
+    if request.method=='POST':
+        username=request.POST.get('username')
+        password=request.POST.get('password')
+        user=authenticate(request,username=username,password=password)
+        if user is not None:
+            login(request,user)
+            return redirect('home')
+        # context={}
+    return render(request,'accounts/login.html')
 def register(request):
     form = CreateUserForm()
 
@@ -93,6 +100,8 @@ def register(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
+            user=form.cleaned_data.get('username')
+            messages.success(request,"Account was created for "+user)
             return redirect('login')
     context = {'form': form}
 
