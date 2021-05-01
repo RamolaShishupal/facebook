@@ -14,7 +14,7 @@ from django.contrib.auth.models import Group
 from .models import *
 from .forms import OrderForm, CreateUserForm
 from .filters import OrderFilter
-from .decorators import unauthenticated_user, allowed_user, admin_only
+from .decorators import unauthenticated_user, allowed_users, admin_only
 
 
 @unauthenticated_user
@@ -85,15 +85,15 @@ def userPage(request):
 
 
 @login_required(login_url='login')
-@allowed_user(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['admin'])
 def products(request):
     products = Product.objects.all()
 
-    return render(request, 'accounts/product.html', {'products': products})
+    return render(request, 'accounts/products.html', {'products': products})
 
 
 @login_required(login_url='login')
-@allowed_user(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['admin'])
 def customer(request, pk_test):
     customer = Customer.objects.get(id=pk_test)
 
@@ -109,7 +109,7 @@ def customer(request, pk_test):
 
 
 @login_required(login_url='login')
-@allowed_user(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['admin'])
 def createOrder(request, pk):
     OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=10)
     customer = Customer.objects.get(id=pk)
@@ -128,7 +128,7 @@ def createOrder(request, pk):
 
 
 @login_required(login_url='login')
-@allowed_user(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['admin'])
 def updateOrder(request, pk):
     order = Order.objects.get(id=pk)
     form = OrderForm(instance=order)
@@ -144,7 +144,7 @@ def updateOrder(request, pk):
 
 
 @login_required(login_url='login')
-@allowed_user(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['admin'])
 def deleteOrder(request, pk):
     order = Order.objects.get(id=pk)
     if request.method == "POST":
