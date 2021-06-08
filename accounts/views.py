@@ -38,6 +38,7 @@ def registerPage(request):
 
 
 @unauthenticated_user
+
 def loginPage(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -78,7 +79,8 @@ def home(request):
 
     return render(request, 'accounts/dashboard.html', context)
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['customer'])
 def userPage(request):
     context = {}
     return render(request, 'accounts/user.html', context)
