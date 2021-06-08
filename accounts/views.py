@@ -82,16 +82,18 @@ def home(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['customer'])
 def userPage(request):
-    context = {}
+    orders=request.user.customer.order_set.all()
+    print('ORDERS :',orders)
+    context = {'orders':orders}
     return render(request, 'accounts/user.html', context)
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['admin','customer'])
 def products(request):
     products = Product.objects.all()
 
-    return render(request, 'accounts/products.html', {'products': products})
+    return render(request, 'accounts/product.html', {'products': products})
 
 
 @login_required(login_url='login')
